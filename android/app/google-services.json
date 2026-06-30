@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "502805992034",
+    "project_id": "lvs-technical-assesmet",
+    "storage_bucket": "lvs-technical-assesmet.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:502805992034:android:565be2fc6d77cfd14eb73b",
+        "android_client_info": {
+          "package_name": "com.alive.alive_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "502805992034-3psevtncu2avi1e36dr0u3dqubkrou9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk1frr9o358tdOn4h5KtiAPOF7C1rg3D4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "502805992034-3psevtncu2avi1e36dr0u3dqubkrou9g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
