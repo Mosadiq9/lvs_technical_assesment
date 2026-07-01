@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -71,7 +72,7 @@ class LiveStreamCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.remove_red_eye, color: Colors.white, size: 11.w),
+                    Icon(CupertinoIcons.eye_fill, color: Colors.white, size: 11.w),
                     SizedBox(width: 4.w),
                     Text(
                       viewerCount,
@@ -92,20 +93,22 @@ class LiveStreamCard extends StatelessWidget {
               left: 10.w,
               right: 10.w,
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Profile Avatar Indicator (Smaller white outlined circle)
+                  // Transparent Ring Indicator matching reference UI
                   Container(
-                    width: 28.w,
-                    height: 28.w,
+                    width: 26.w,
+                    height: 26.w,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 1.5),
-                      color: Colors.grey.shade400,
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.5),
+                        width: 1.5,
+                      ),
+                      color: Colors.black.withValues(alpha: 0.25),
                     ),
-                    child: const Icon(Icons.person, color: Colors.white, size: 16),
                   ),
-                  SizedBox(width: 6.w),
+                  SizedBox(width: 8.w),
                   
                   // Username and Country Flag aligned exactly
                   Expanded(
@@ -139,11 +142,11 @@ class LiveStreamCard extends StatelessWidget {
                   ),
                   SizedBox(width: 4.w),
                   
-                  // Follow Button (Bright yellow pill, smaller height, correct typography & bottom-right positioning)
+                  // Follow Button (Compact bright yellow pill, smaller size & refined typography)
                   GestureDetector(
                     onTap: onFollow,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.h),
+                      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 3.h),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFD500),
                         borderRadius: BorderRadius.circular(100.r),
@@ -152,8 +155,8 @@ class LiveStreamCard extends StatelessWidget {
                         '+ Follow',
                         style: GoogleFonts.inter(
                           color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 9.5.sp,
                         ),
                       ),
                     ),

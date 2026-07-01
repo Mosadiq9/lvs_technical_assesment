@@ -1,4 +1,5 @@
 import '../../../../core/errors/exceptions.dart';
+import '../../../../core/network/api_client.dart';
 import '../models/stream_model.dart';
 import '../models/category_model.dart';
 
@@ -9,6 +10,10 @@ abstract class StreamRemoteDataSource {
 }
 
 class StreamRemoteDataSourceImpl implements StreamRemoteDataSource {
+  final ApiClient? apiClient;
+
+  StreamRemoteDataSourceImpl({this.apiClient});
+
   final List<CategoryModel> _categories = const [
     CategoryModel(id: 'all', name: 'Global', flagAsset: 'global'),
     CategoryModel(id: 'india', name: 'India', flagAsset: 'in'),

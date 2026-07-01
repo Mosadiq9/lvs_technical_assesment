@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:google_sign_in/google_sign_in.dart';
+import '../../../../core/config/environment.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../models/user_model.dart';
 
@@ -21,15 +22,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     try {
       // Ensure plugin is initialized in v7+ with serverClientId for Firebase
       await _googleSignIn.initialize(
-        serverClientId: '502805992034-3psevtncu2avi1e36dr0u3dqubkrou9g.apps.googleusercontent.com',
+        serverClientId: Environment.googleServerClientId,
       );
       
       // Use authenticate() in v7+ instead of signIn()
-      final GoogleSignInAccount? googleUser = await _googleSignIn.authenticate();
-      if (googleUser == null) {
-        throw AuthException('Google Sign-In aborted by user.');
-      }
-
+      final googleUser = await _googleSignIn.authenticate();
       final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
       final fb.OAuthCredential credential = fb.GoogleAuthProvider.credential(

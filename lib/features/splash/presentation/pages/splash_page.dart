@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../core/theme/app_durations.dart';
-import '../../../core/shared/widgets/app_logo.dart';
-import '../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_durations.dart';
+import '../../../../core/shared/widgets/app_logo.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../auth/presentation/providers/auth_state.dart';
 
-class SplashPage extends StatefulWidget {
+class SplashPage extends ConsumerStatefulWidget {
   const SplashPage({super.key});
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateMixin {
+class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
@@ -33,13 +36,30 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     );
 
     _controller.forward();
-
-    // Navigate to login after splash duration
-    Future.delayed(AppDurations.splash, () {
-      if (mounted) {
-        context.go('/login');
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAuthAndNavigate();
     });
+  }
+
+  Future<void> _checkAuthAndNavigate() async {
+    try {
+      // Perform auth state check and wait for minimum splash duration
+      await Future.wait([
+        Future.delayed(AppDurations.splash),
+        ref.read(authViewModelProvider.notifier).checkCurrentUser(),
+      ]);
+    } catch (_) {
+      // If any unexpected error occurs during auth verification, proceed safely
+    }
+
+    if (!mounted) return;
+
+    final authState = ref.read(authViewModelProvider);
+    if (authState is AuthStateAuthenticated) {
+      context.go('/home');
+    } else {
+      context.go('/login');
+    }
   }
 
   @override

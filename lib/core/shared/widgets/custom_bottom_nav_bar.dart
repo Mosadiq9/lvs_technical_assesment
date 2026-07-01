@@ -1,6 +1,8 @@
+import 'package:bootstrap_icons/bootstrap_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 typedef CustomBottomNavBar = CustomBottomNavigationBar;
 
@@ -11,10 +13,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
   // Customizable parameters to easily control curve depth, notch gap, and roundness
   final double navbarTopOffset;
   final double floatingButtonSize;
+  final double notchMargin;        // Directly controls the transparent gap between hotspot button and green navbar
   final double topCornerRadius;
-  final double notchRadius;
+  final double? notchRadius;       // If null, computed automatically as (floatingButtonSize / 2) + notchMargin
   final double notchSmoothness;
-  final double notchDepth;
+  final double? notchDepth;        // If null, computed automatically to match notchRadius
+  final double bottomGap;          // Manually control space below bottom navbar (set 0.0 to sit flush at screen bottom)
 
   const CustomBottomNavigationBar({
     super.key,
@@ -22,19 +26,24 @@ class CustomBottomNavigationBar extends StatelessWidget {
     required this.onTap,
     this.navbarTopOffset = 24.0,       // Height reserved above the green bar for the top half of floating button
     this.floatingButtonSize = 56.0,    // Diameter of the white circular Go Live button
+    this.notchMargin = 4.0,            // Direct transparent gap around the button
     this.topCornerRadius = 26.0,       // Roundness of left and right top corners of navbar
-    this.notchRadius = 38.0,           // Radius of circular notch (make larger than button radius 28.0 for gap!)
-    this.notchSmoothness = 22.0,       // Smoothness/width of bezier transition entering the notch
-    this.notchDepth = 32.0,            // Depth of gravity curve notch valley
+    this.notchRadius,                  // Automatically calculated if null
+    this.notchSmoothness = 20.0,       // Smoothness/width of bezier transition entering the notch
+    this.notchDepth,                   // Automatically calculated if null
+    this.bottomGap = 0.0,              // 0.0 removes system gap so navbar touches bottom edge
   });
 
   @override
   Widget build(BuildContext context) {
+    final double effectiveNotchRadius = notchRadius ?? ((floatingButtonSize / 2) + notchMargin);
+    final double effectiveNotchDepth = notchDepth ?? effectiveNotchRadius;
+
     // Transparent container so content shines through the curved cutout
     return Container(
       color: Colors.transparent,
-      child: SafeArea(
-        top: false,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: bottomGap.h),
         child: SizedBox(
           height: (navbarTopOffset + 70.0).h,
           width: double.infinity,
@@ -48,9 +57,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   painter: _NavBarBackgroundPainter(
                     topOffset: navbarTopOffset.h,
                     topCornerRadius: topCornerRadius.r,
-                    notchRadius: notchRadius.w,
+                    notchRadius: effectiveNotchRadius.w,
                     notchSmoothness: notchSmoothness.w,
-                    notchDepth: notchDepth.h,
+                    notchDepth: effectiveNotchDepth.h,
                   ),
                 ),
               ),
@@ -69,7 +78,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _NavItem(
-                          icon: Icons.home_rounded,
+                          icon: BootstrapIcons.house_fill,
                           label: 'Home',
                           isSelected: currentIndex == 0,
                           onTap: () => onTap(0),
@@ -77,7 +86,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                       ),
                       Expanded(
                         child: _NavItem(
-                          icon: Icons.celebration_outlined,
+                          icon: LucideIcons.partyPopper,
                           label: 'Party',
                           isSelected: currentIndex == 1,
                           onTap: () => onTap(1),
@@ -106,7 +115,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                       ),
                       Expanded(
                         child: _NavItem(
-                          icon: Icons.near_me_outlined,
+                          icon: LucideIcons.send,
                           label: 'Chats',
                           isSelected: currentIndex == 3,
                           onTap: () => onTap(3),
@@ -114,7 +123,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                       ),
                       Expanded(
                         child: _NavItem(
-                          icon: Icons.person_outline_rounded,
+                          icon: LucideIcons.user,
                           label: 'Profile',
                           isSelected: currentIndex == 4,
                           onTap: () => onTap(4),
@@ -236,19 +245,19 @@ class _NavBarBackgroundPainter extends CustomPainter {
     final double leftNotchStart = center - notchRadius - notchSmoothness;
     path.lineTo(leftNotchStart, top);
 
-    // Left cubic transition entering the circular valley
+    // Left half of continuous U curve: smooth horizontal shoulder into vertical U wall down to flat bottom center
     path.cubicTo(
-      center - notchRadius, top, // Control point 1: tangent horizontal at top
-      center - (notchRadius * 0.65), notchBottomY, // Control point 2: approach bottom center
-      center, notchBottomY, // End point: bottom center of valley
+      leftNotchStart + (notchSmoothness * 0.65), top, // Control point 1: gently curve off top edge
+      center - (notchRadius * 0.55), notchBottomY,      // Control point 2: approach bottom center horizontally
+      center, notchBottomY,                           // End point: exact bottom center of U
     );
 
-    // Right cubic transition exiting the circular valley
+    // Right half of continuous U curve: flat bottom center up vertical U wall to smooth horizontal shoulder
     final double rightNotchEnd = center + notchRadius + notchSmoothness;
     path.cubicTo(
-      center + (notchRadius * 0.65), notchBottomY, // Control point 1: tangent horizontal at bottom
-      center + notchRadius, top, // Control point 2: approach right top flat line
-      rightNotchEnd, top, // End point: back on flat top line
+      center + (notchRadius * 0.55), notchBottomY,      // Control point 1: exact mirror tangent at bottom center
+      rightNotchEnd - (notchSmoothness * 0.65), top,  // Control point 2: approach right top edge horizontally
+      rightNotchEnd, top,                             // End point: back on flat top edge
     );
 
     // Flat line to right corner

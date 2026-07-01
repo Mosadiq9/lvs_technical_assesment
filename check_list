@@ -1,0 +1,10 @@
+
+
+Build the following flow using Flutter:  1. Splash Screen  • Display the provided app logo.  • Add a smooth animation.  • Navigate automatically to the Login Screen.  2. Login Screen  Implement only:  Continue with Google  (No Mobile Number Login)  (No Facebook Login)  Use Firebase Google Authentication.  3. Home Screen  After successful login, navigate to the Home Screen.  The Home Screen should match the provided UI reference as closely as possible.  Requirements:  • Responsive UI  • Clean Code  
+
+• API-ready architecture  • State Management  • Proper Folder Structure  • Reusable Widgets  • Smooth Animations  You do not need to implement live streaming functionality.  Only the UI and navigation flow are required.  Technical Requirements  • Flutter (Latest Stable Version)  • Clean Architecture  • MVVM (Preferred)  • Firebase Authentication  • REST API Ready Structure  • Git Version Control  • Proper Code Documentation  
+
+
+Evaluation Criteria  • Code Quality  • Project Structure  • UI Accuracy  • Performance  
+
+• Clean Architecture  • Flutter Best Practices  • Problem Solving  • Communication  

@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_colors.dart';
 import 'app_logo.dart';
 
@@ -23,21 +23,8 @@ class TopAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Alive logo on left
-          Row(
-            children: [
-              const AppLogo(size: 36),
-              SizedBox(width: 8.w),
-              Text(
-                'Alive',
-                style: GoogleFonts.inter(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-            ],
-          ),
+          // Alive gradient logo badge on left matching login screen
+          const AppLogo(size: 42),
           
           // Icons on right
           Row(
@@ -49,7 +36,7 @@ class TopAppBar extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     Icon(
-                      Icons.notifications_none_rounded,
+                      CupertinoIcons.bell,
                       color: AppColors.textPrimary,
                       size: 26.w,
                     ),
@@ -81,7 +68,7 @@ class TopAppBar extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    Icons.account_balance_wallet_outlined,
+                    CupertinoIcons.creditcard,
                     color: Colors.white,
                     size: 20.w,
                   ),

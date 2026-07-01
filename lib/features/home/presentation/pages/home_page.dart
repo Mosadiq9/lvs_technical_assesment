@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,11 +8,11 @@ import '../../../../core/shared/widgets/top_app_bar.dart';
 import '../../../../core/shared/widgets/custom_bottom_nav_bar.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/extensions.dart';
-import '../../auth/presentation/providers/auth_providers.dart';
-import 'providers/stream_providers.dart';
-import 'providers/stream_state.dart';
-import 'widgets/category_filter_list.dart';
-import 'widgets/stream_grid.dart';
+import '../../../auth/presentation/providers/auth_providers.dart';
+import '../../../stream/presentation/providers/stream_providers.dart';
+import '../../../stream/presentation/providers/stream_state.dart';
+import '../../../stream/presentation/widgets/category_filter_list.dart';
+import '../../../stream/presentation/widgets/stream_grid.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -31,7 +32,6 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      // extendBody: true removes the solid white background behind the curved top edges and notch!
       extendBody: true,
       body: SafeArea(
         bottom: false,
@@ -46,8 +46,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                 _showUserMenu(context);
               },
             ),
-            
-            // Top Tabs: Stream | Hot | Follow
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: Row(
@@ -85,7 +83,6 @@ class _HomePageState extends ConsumerState<HomePage> {
               ),
             ),
             SizedBox(height: 12.h),
-            
             Expanded(
               child: switch (streamState) {
                 StreamStateLoading() => const Center(
@@ -106,16 +103,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ),
                 StreamStateLoaded(:final categories, :final streams, :final selectedCategoryId) => Column(
                     children: [
-                      // ─── Tweak Top Country Chip Dimensions Here! ───
                       CategoryFilterList(
                         categories: categories,
                         selectedCategoryId: selectedCategoryId,
-                        chipHeight: 30.0,            // Try 26.0, 28.0, or 30.0! Now it responds instantly!
-                        chipHorizontalPadding: 12.0, // Left and right padding inside chip
-                        flagWidth: 14.0,             // Country flag width
-                        flagHeight: 10.0,            // Country flag height
-                        flagSpacing: 6.0,            // Gap between flag and text
-                        fontSize: 12.0,              // Country font size
+                        chipHeight: 30.0,
+                        chipHorizontalPadding: 12.0,
+                        flagWidth: 14.0,
+                        flagHeight: 10.0,
+                        flagSpacing: 6.0,
+                        fontSize: 12.0,
                         onCategorySelected: (id) {
                           ref.read(streamViewModelProvider.notifier).selectCategory(id);
                         },
@@ -140,13 +136,12 @@ class _HomePageState extends ConsumerState<HomePage> {
           ],
         ),
       ),
-      // Here you can manually control the gap and curve depth around the Go Live button!
       bottomNavigationBar: CustomBottomNavBar(
         currentIndex: _currentNavIndex,
-        // Tweak these values anytime to control the notch curve and gap:
-        notchRadius: 34.0,      // Increase this to make the gap around the circular button wider
-        notchDepth: 36.0,       // Increase or decrease this to control how deep the curve dips
-        notchSmoothness: 22.0,  // Controls the slope smoothness entering the notch
+        notchRadius: 34.0,
+        notchDepth: 36.0,
+        notchSmoothness: 22.0,
+        bottomGap: 0.0, // Manually control gap below bottom navbar (set negative e.g. -15.0 to pull down, positive to lift up)
         onTap: (index) {
           setState(() => _currentNavIndex = index);
           if (index == 4) {
@@ -175,7 +170,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
             SizedBox(height: 20.h),
             ListTile(
-              leading: const Icon(Icons.logout, color: AppColors.error),
+              leading: const Icon(CupertinoIcons.square_arrow_right, color: AppColors.error),
               title: Text('Sign Out', style: GoogleFonts.inter(color: AppColors.error, fontWeight: FontWeight.w600)),
               onTap: () {
                 Navigator.pop(ctx);

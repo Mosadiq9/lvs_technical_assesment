@@ -4,11 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/shared/widgets/loading_overlay.dart';
 import '../../../../core/utils/extensions.dart';
-import 'providers/auth_providers.dart';
-import 'providers/auth_state.dart';
-import 'widgets/login_header.dart';
-import 'widgets/login_form.dart';
-import 'widgets/login_footer.dart';
+import '../providers/auth_providers.dart';
+import '../providers/auth_state.dart';
+import '../widgets/login_header.dart';
+import '../widgets/login_form.dart';
+import '../widgets/login_footer.dart';
 
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});

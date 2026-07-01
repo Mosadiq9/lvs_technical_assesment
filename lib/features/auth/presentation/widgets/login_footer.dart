@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../core/theme/app_assets.dart';
 
 class LoginFooter extends StatelessWidget {
   final VoidCallback onGooglePressed;
@@ -14,13 +15,32 @@ class LoginFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // =========================================================================
+    // 🎛️ MANUAL CONTROLS: ADJUST THESE TO LIFT & POSITION THE BOTTOM WAVE
+    // =========================================================================
+    // 1. GREEN WAVE VERTICAL LIFT:
+    // A negative number lifts the green wave higher up towards the Login button.
+    // Try changing -70.h to -100.h (higher up) or -30.h (lower down).
+    final double waveLiftOffset = -10.h;
+
+    // 2. TOP SPACE ABOVE SOCIAL LOGIN SECTION:
+    // Controls how far below the login form the divider & Google button sit.
+    final double socialSectionTopPadding = 80.h;
+    // =========================================================================
+
     return Stack(
+      clipBehavior: Clip.none,
       alignment: Alignment.topCenter,
       children: [
-        // 1. Two overlapping Bézier wave layers filling 100% to bottom
-        Positioned.fill(
-          child: CustomPaint(
-            painter: _GreenWavesPainter(),
+        // 1. Background image replacing green wave, manually lifted up
+        Positioned(
+          top: waveLiftOffset,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Image.asset(
+            AppAssets.loginBg,
+            fit: BoxFit.fill,
           ),
         ),
         Padding(
@@ -28,9 +48,8 @@ class LoginFooter extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // ─── CONTROL 1: TOP SPACE INSIDE GREEN WAVE ───
-              // Increase this (e.g. from 28.h to 60.h or 80.h) to push the ENTIRE social section (divider + button) lower down toward the bottom!
-              SizedBox(height: 60.h),
+              // Uses manual control above
+              SizedBox(height: socialSectionTopPadding),
               Row(
                 children: [
                   Expanded(
@@ -60,6 +79,24 @@ class LoginFooter extends StatelessWidget {
               ),
               // ─── CONTROL 2: GAP BETWEEN DIVIDER & GOOGLE BUTTON ───
               // Increase this (e.g. from 16.h to 40.h or 50.h) to push ONLY the Google button further down below the divider!
+                SizedBox(height: 16.h),
+              // 5. Reduce Google button height slightly (42.h)
+              _SocialPillButton(
+                onTap: onGooglePressed,
+                iconWidget: Image.asset(
+                  'assets/icons/google.png',
+                  width: 18.w,
+                  height: 18.w,
+                  errorBuilder: (_, __, ___) => Icon(
+                    Icons.g_mobiledata_rounded,
+                    color: Colors.blue.shade700,
+                    size: 24.w,
+                  ),
+                ),
+                label: 'Continue with Google',
+              ),
+              
+              
               SizedBox(height: 16.h),
               // 5. Reduce Google button height slightly (42.h)
               _SocialPillButton(
@@ -77,23 +114,7 @@ class LoginFooter extends StatelessWidget {
                 label: 'Continue with Google',
               ),
               // 6. Facebook Login button removed completely per technical assessment requirement
-              SizedBox(height: 18.h),
-              _SocialPillButton(
-                onTap: onGooglePressed,
-                iconWidget: Image.asset(
-                  'assets/icons/google.png',
-                  width: 18.w,
-                  height: 18.w,
-                  errorBuilder: (_, __, ___) => Icon(
-                    Icons.g_mobiledata_rounded,
-                    color: Colors.blue.shade700,
-                    size: 24.w,
-                  ),
-                ),
-                label: 'Continue with Google',
-              ),
-              // 6. Facebook Login button removed completely per technical assessment requirement
-              SizedBox(height: 30.h),
+              SizedBox(height: 15.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -175,76 +196,4 @@ class _SocialPillButton extends StatelessWidget {
       ),
     );
   }
-}
-
-// ─── MASTER GUIDE: HOW TO CONTROL EVERY DETAIL OF THE GREEN WAVES ───
-class _GreenWavesPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    // -------------------------------------------------------------------------
-    // LAYER 1: BACK WAVE (Dark Green #0A6800)
-    // -------------------------------------------------------------------------
-    final Path backPath = Path();
-    
-    // 1. START POINT (Left edge of screen): (x = 0, y = 10)
-    // Increase `10` (e.g. to 30) to push the left starting point lower down!
-    backPath.moveTo(0, 10);
-
-    // 2. CUBIC BÉZIER CURVE TO RIGHT EDGE:
-    // cubicTo(ControlPoint1_X, ControlPoint1_Y, ControlPoint2_X, ControlPoint2_Y, EndPoint_X, EndPoint_Y)
-    // - Control Point 1 (size.width * 0.32, 0): Pulls the left 1/3 curve upward toward y = 0.
-    // - Control Point 2 (size.width * 0.68, 38): Dips the right 2/3 curve downward toward y = 38.
-    // - End Point (size.width, 6): Meets the right screen edge at y = 6.
-    backPath.cubicTo(
-      size.width * 0.32, 0,
-      size.width * 0.68, 38,
-      size.width, 6,
-    );
-    backPath.lineTo(size.width, size.height); // Draw down to bottom right corner
-    backPath.lineTo(0, size.height);          // Draw across to bottom left corner
-    backPath.close();                         // Fill the shape
-
-    final Paint backPaint = Paint()
-      ..isAntiAlias = true
-      ..color = const Color(0xFF0A6800);
-    canvas.drawPath(backPath, backPaint);
-
-    // -------------------------------------------------------------------------
-    // LAYER 2: FRONT WAVE (Bright Light Yellow-Green Gradient)
-    // -------------------------------------------------------------------------
-    final Path frontPath = Path();
-    
-    // 1. START POINT (Left edge of screen): (x = 0, y = 18)
-    frontPath.moveTo(0, 50);
-
-    // 2. CUBIC BÉZIER CURVE:
-    // - Control Point 1 (size.width * 0.35, 45): Dips the left crest down to y = 45.
-    // - Control Point 2 (size.width * 0.65, 4): Swoops the right crest up high to y = 4.
-    // - End Point (size.width, 16): Meets the right screen edge at y = 16.
-    frontPath.cubicTo(
-      size.width * 0.35, 45,
-      size.width * 0.32, 10,
-      size.width, 4,
-    );
-    frontPath.lineTo(size.width, size.height);
-    frontPath.lineTo(0, size.height);
-    frontPath.close();
-
-    final Paint frontPaint = Paint()
-      ..isAntiAlias = true
-      // ─── CHANGE GRADIENT COLORS HERE ───
-      ..shader = const LinearGradient(
-        colors: [
-          Color(0xFF8CE400), // Top light lime color
-          Color(0xFF18B200), // Bottom deep emerald color
-        ],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-      ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
-
-    canvas.drawPath(frontPath, frontPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

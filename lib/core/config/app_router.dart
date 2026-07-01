@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../features/splash/presentation/splash_page.dart';
-import '../../features/auth/presentation/login_page.dart';
-import '../../features/stream/presentation/home_page.dart';
+import '../../features/splash/presentation/pages/splash_page.dart';
+import '../../features/auth/presentation/pages/login_page.dart';
+import '../../features/home/presentation/pages/home_page.dart';
 
-// We will replace these with actual screens later
 class PlaceholderScreen extends StatelessWidget {
   final String title;
   const PlaceholderScreen({super.key, required this.title});
@@ -19,21 +18,51 @@ class PlaceholderScreen extends StatelessWidget {
   }
 }
 
+CustomTransitionPage<void> _buildFadeTransitionPage(
+  BuildContext context,
+  GoRouterState state,
+  Widget child,
+) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionDuration: const Duration(milliseconds: 350),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: CurveTween(curve: Curves.easeInOut).animate(animation),
+        child: child,
+      );
+    },
+  );
+}
+
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/splash',
     routes: [
       GoRoute(
         path: '/splash',
-        builder: (context, state) => const SplashPage(),
+        pageBuilder: (context, state) => _buildFadeTransitionPage(
+          context,
+          state,
+          const SplashPage(),
+        ),
       ),
       GoRoute(
         path: '/login',
-        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) => _buildFadeTransitionPage(
+          context,
+          state,
+          const LoginPage(),
+        ),
       ),
       GoRoute(
         path: '/home',
-        builder: (context, state) => const HomePage(),
+        pageBuilder: (context, state) => _buildFadeTransitionPage(
+          context,
+          state,
+          const HomePage(),
+        ),
       ),
     ],
   );

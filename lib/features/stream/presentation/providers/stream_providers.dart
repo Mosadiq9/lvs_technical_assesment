@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/network/api_client.dart';
 import '../../data/datasources/stream_remote_datasource.dart';
 import '../../data/repositories/stream_repository_impl.dart';
 import '../../domain/repositories/stream_repository.dart';
@@ -9,7 +10,8 @@ import 'stream_state.dart';
 import 'stream_viewmodel.dart';
 
 final streamRemoteDataSourceProvider = Provider<StreamRemoteDataSource>((ref) {
-  return StreamRemoteDataSourceImpl();
+  final apiClient = ref.watch(apiClientProvider);
+  return StreamRemoteDataSourceImpl(apiClient: apiClient);
 });
 
 final streamRepositoryProvider = Provider<StreamRepository>((ref) {
