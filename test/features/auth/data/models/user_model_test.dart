@@ -25,10 +25,7 @@ void main() {
     });
 
     test('fromJson creates UserModel with null optional fields', () {
-      final jsonMap = {
-        'id': 'user_123',
-        'email': 'test@example.com',
-      };
+      final jsonMap = {'id': 'user_123', 'email': 'test@example.com'};
 
       final result = UserModel.fromJson(jsonMap);
 

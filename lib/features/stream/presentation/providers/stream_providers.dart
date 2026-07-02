@@ -34,10 +34,11 @@ final followStreamerUseCaseProvider = Provider<FollowStreamerUseCase>((ref) {
   return FollowStreamerUseCase(repository);
 });
 
-final streamViewModelProvider = StateNotifierProvider<StreamViewModel, StreamState>((ref) {
-  return StreamViewModel(
-    getStreamsUseCase: ref.watch(getStreamsUseCaseProvider),
-    getCategoriesUseCase: ref.watch(getCategoriesUseCaseProvider),
-    followStreamerUseCase: ref.watch(followStreamerUseCaseProvider),
-  );
-});
+final streamViewModelProvider =
+    StateNotifierProvider<StreamViewModel, StreamState>((ref) {
+      return StreamViewModel(
+        getStreamsUseCase: ref.watch(getStreamsUseCaseProvider),
+        getCategoriesUseCase: ref.watch(getCategoriesUseCaseProvider),
+        followStreamerUseCase: ref.watch(followStreamerUseCaseProvider),
+      );
+    });

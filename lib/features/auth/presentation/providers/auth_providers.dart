@@ -19,7 +19,9 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(remoteDataSource);
 });
 
-final signInWithGoogleUseCaseProvider = Provider<SignInWithGoogleUseCase>((ref) {
+final signInWithGoogleUseCaseProvider = Provider<SignInWithGoogleUseCase>((
+  ref,
+) {
   final repository = ref.watch(authRepositoryProvider);
   return SignInWithGoogleUseCase(repository);
 });
@@ -34,7 +36,9 @@ final getCurrentUserUseCaseProvider = Provider<GetCurrentUserUseCase>((ref) {
   return GetCurrentUserUseCase(repository);
 });
 
-final authViewModelProvider = StateNotifierProvider<AuthViewModel, AuthState>((ref) {
+final authViewModelProvider = StateNotifierProvider<AuthViewModel, AuthState>((
+  ref,
+) {
   return AuthViewModel(
     signInWithGoogleUseCase: ref.watch(signInWithGoogleUseCaseProvider),
     signOutUseCase: ref.watch(signOutUseCaseProvider),

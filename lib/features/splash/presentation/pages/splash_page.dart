@@ -14,7 +14,8 @@ class SplashPage extends ConsumerStatefulWidget {
   ConsumerState<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProviderStateMixin {
+class _SplashPageState extends ConsumerState<SplashPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _opacityAnimation;
@@ -22,18 +23,17 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: AppDurations.slow,
-    );
+    _controller = AnimationController(vsync: this, duration: AppDurations.slow);
 
-    _scaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
-    );
+    _scaleAnimation = Tween<double>(
+      begin: 0.5,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutBack));
 
-    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
-    );
+    _opacityAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
     _controller.forward();
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -43,14 +43,11 @@ class _SplashPageState extends ConsumerState<SplashPage> with SingleTickerProvid
 
   Future<void> _checkAuthAndNavigate() async {
     try {
-      // Perform auth state check and wait for minimum splash duration
       await Future.wait([
         Future.delayed(AppDurations.splash),
         ref.read(authViewModelProvider.notifier).checkCurrentUser(),
       ]);
-    } catch (_) {
-      // If any unexpected error occurs during auth verification, proceed safely
-    }
+    } catch (_) {}
 
     if (!mounted) return;
 

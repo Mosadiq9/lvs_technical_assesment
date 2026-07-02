@@ -42,27 +42,18 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: '/splash',
-        pageBuilder: (context, state) => _buildFadeTransitionPage(
-          context,
-          state,
-          const SplashPage(),
-        ),
+        pageBuilder: (context, state) =>
+            _buildFadeTransitionPage(context, state, const SplashPage()),
       ),
       GoRoute(
         path: '/login',
-        pageBuilder: (context, state) => _buildFadeTransitionPage(
-          context,
-          state,
-          const LoginPage(),
-        ),
+        pageBuilder: (context, state) =>
+            _buildFadeTransitionPage(context, state, const LoginPage()),
       ),
       GoRoute(
         path: '/home',
-        pageBuilder: (context, state) => _buildFadeTransitionPage(
-          context,
-          state,
-          const HomePage(),
-        ),
+        pageBuilder: (context, state) =>
+            _buildFadeTransitionPage(context, state, const HomePage()),
       ),
     ],
   );

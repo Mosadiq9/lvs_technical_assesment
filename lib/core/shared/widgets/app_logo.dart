@@ -8,13 +8,23 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      AppAssets.logo,
-      width: size,
-      height: size,
-      fit: BoxFit.contain,
-      errorBuilder: (context, error, stackTrace) {
-        // Render the exact same gradient badge logo as the Login screen
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(size * 0.26),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Image.asset(
+        AppAssets.logo,
+        width: size,
+        height: size,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stackTrace) {
         return Container(
           width: size,
           height: size,
@@ -56,6 +66,6 @@ class AppLogo extends StatelessWidget {
           ),
         );
       },
-    );
+    ));
   }
 }

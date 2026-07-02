@@ -25,7 +25,7 @@ class PrimaryButton extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: isEnabled ? AppColors.primaryGradient : null,
         color: isEnabled ? null : AppColors.border,
-        borderRadius: BorderRadius.circular(100.r), // fully rounded pill
+        borderRadius: BorderRadius.circular(100.r),
       ),
       child: Material(
         color: Colors.transparent,

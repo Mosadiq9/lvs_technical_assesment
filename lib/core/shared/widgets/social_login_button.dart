@@ -41,7 +41,6 @@ class SocialLoginButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Placeholder widget until assets are added
               SizedBox(
                 width: 24.w,
                 height: 24.w,

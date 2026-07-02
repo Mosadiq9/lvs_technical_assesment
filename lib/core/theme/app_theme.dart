@@ -30,7 +30,10 @@ class AppTheme {
         filled: true,
         fillColor: const Color(0xFFF5F5F5),
         hintStyle: AppTextStyles.body.copyWith(color: AppColors.textHint),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
           borderSide: BorderSide.none,

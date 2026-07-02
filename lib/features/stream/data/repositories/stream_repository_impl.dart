@@ -12,7 +12,9 @@ class StreamRepositoryImpl implements StreamRepository {
   StreamRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<Either<Failure, List<StreamEntity>>> getStreams({String? categoryId}) async {
+  Future<Either<Failure, List<StreamEntity>>> getStreams({
+    String? categoryId,
+  }) async {
     try {
       final models = await remoteDataSource.getStreams(categoryId: categoryId);
       return Right(models.map((m) => m.toEntity()).toList());

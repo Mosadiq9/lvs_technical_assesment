@@ -8,7 +8,8 @@ class Environment {
   }
 
   static String get googleServerClientId {
-    return dotenv.env['GOOGLE_SERVER_CLIENT_ID'] ?? '502805992034-3psevtncu2avi1e36dr0u3dqubkrou9g.apps.googleusercontent.com';
+    return dotenv.env['GOOGLE_SERVER_CLIENT_ID'] ??
+        '502805992034-3psevtncu2avi1e36dr0u3dqubkrou9g.apps.googleusercontent.com';
   }
 
   static bool get isProduction {

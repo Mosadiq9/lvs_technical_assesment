@@ -24,8 +24,9 @@ void main() {
   const tUser = UserEntity(id: '1', email: 'test@test.com');
 
   test('SignInWithGoogleUseCase delegates to repository', () async {
-    when(mockRepository.signInWithGoogle())
-        .thenAnswer((_) async => const Right(tUser));
+    when(
+      mockRepository.signInWithGoogle(),
+    ).thenAnswer((_) async => const Right(tUser));
 
     final result = await signInUseCase();
 
@@ -35,8 +36,7 @@ void main() {
   });
 
   test('SignOutUseCase delegates to repository', () async {
-    when(mockRepository.signOut())
-        .thenAnswer((_) async => const Right(null));
+    when(mockRepository.signOut()).thenAnswer((_) async => const Right(null));
 
     final result = await signOutUseCase();
 
@@ -46,8 +46,9 @@ void main() {
   });
 
   test('GetCurrentUserUseCase delegates to repository', () async {
-    when(mockRepository.getCurrentUser())
-        .thenAnswer((_) async => const Right(tUser));
+    when(
+      mockRepository.getCurrentUser(),
+    ).thenAnswer((_) async => const Right(tUser));
 
     final result = await getCurrentUserUseCase();
 

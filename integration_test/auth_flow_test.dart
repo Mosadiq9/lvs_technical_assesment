@@ -28,10 +28,10 @@ void main() {
       expect(find.text('Password'), findsOneWidget);
       expect(find.text('Forgot Password?'), findsOneWidget);
       expect(find.text('Login'), findsOneWidget);
-      
+
       // Should find at least one "Continue with Google"
       expect(find.text('Continue with Google'), findsWidgets);
-      
+
       expect(find.text('Sign Up'), findsOneWidget);
     });
 
@@ -63,13 +63,15 @@ void main() {
       expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
     });
 
-    testWidgets('Continue with Google navigates to Home on success', (tester) async {
+    testWidgets('Continue with Google navigates to Home on success', (
+      tester,
+    ) async {
       await navigateToLogin(tester);
 
       // We have duplicate buttons, just tap the first one
       final googleBtn = find.text('Continue with Google').first;
       await tester.tap(googleBtn);
-      
+
       // Allow async auth and navigation to finish
       await tester.pumpAndSettle();
 
@@ -80,18 +82,20 @@ void main() {
       expect(find.text('Hot'), findsOneWidget);
     });
 
-    testWidgets('Continue with Google shows error snackbar on failure', (tester) async {
-      await tester.pumpWidget(createTestApp(
-        authDataSource: FailingFakeAuthDataSource(),
-      ));
-      
+    testWidgets('Continue with Google shows error snackbar on failure', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        createTestApp(authDataSource: FailingFakeAuthDataSource()),
+      );
+
       // Splash screen delay
       await tester.pump(const Duration(milliseconds: 2600));
       await tester.pumpAndSettle();
 
       final googleBtn = find.text('Continue with Google').first;
       await tester.tap(googleBtn);
-      
+
       await tester.pumpAndSettle();
 
       // Should still be on login screen, showing an error snackbar

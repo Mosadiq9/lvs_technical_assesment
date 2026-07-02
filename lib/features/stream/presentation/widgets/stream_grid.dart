@@ -31,7 +31,6 @@ class StreamGrid extends StatelessWidget {
     }
 
     return GridView.builder(
-      // Added bottom padding (90.h) so content scrolls completely clear of floating bottom navbar
       padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 8.h, bottom: 90.h),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

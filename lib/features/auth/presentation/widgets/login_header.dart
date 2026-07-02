@@ -8,22 +8,31 @@ class LoginHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ─── CONTROL TOP SPACE ABOVE LOGO HERE ───
-    // Change `top: 30.h` to increase or decrease the distance below the status bar / camera notch!
     return Padding(
       padding: EdgeInsets.only(top: 60.h, left: 24.w, right: 24.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // 7. Reduce logo size by approximately 10% (46.w)
-          Image.asset(
-            AppAssets.logo,
-            width: 54.w,
-            height: 54.w,
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) {
-              return const _AliveLogoBadge();
-            },
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.r),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Image.asset(
+              AppAssets.logo,
+              width: 65.w,
+              height: 65.w,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                return const _AliveLogoBadge();
+              },
+            ),
           ),
           SizedBox(height: 20.h),
           Text(
@@ -35,7 +44,6 @@ class LoginHeader extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          // 12. Reduce spacing between title and subtitle
           SizedBox(height: 1.h),
           Text(
             'Sign in to continue your live streaming journey.',
@@ -59,8 +67,8 @@ class _AliveLogoBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 46.w,
-      height: 46.w,
+      width: 55.w,
+      height: 55.w,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           colors: [Color(0xFFD2F500), Color(0xFF1FB200)],
@@ -90,11 +98,7 @@ class _AliveLogoBadge extends StatelessWidget {
             ),
           ),
           SizedBox(height: 1.5.h),
-          Icon(
-            Icons.videocam_rounded,
-            color: Colors.white,
-            size: 14.w,
-          ),
+          Icon(Icons.videocam_rounded, color: Colors.white, size: 14.w),
         ],
       ),
     );

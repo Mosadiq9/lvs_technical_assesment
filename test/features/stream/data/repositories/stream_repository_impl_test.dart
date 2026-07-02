@@ -29,84 +29,71 @@ void main() {
     categoryId: 'c1',
   );
 
-  const tCategoryModel = CategoryModel(
-    id: 'c1',
-    name: 'Cat',
-    flagAsset: 'us',
-  );
+  const tCategoryModel = CategoryModel(id: 'c1', name: 'Cat', flagAsset: 'us');
 
   final tStreamEntity = tStreamModel.toEntity();
   final tCategoryEntity = tCategoryModel.toEntity();
 
   group('getStreams', () {
     test('should return Right(List<StreamEntity>) on success', () async {
-      when(mockRemoteDataSource.getStreams(categoryId: anyNamed('categoryId')))
-          .thenAnswer((_) async => [tStreamModel]);
+      when(
+        mockRemoteDataSource.getStreams(categoryId: anyNamed('categoryId')),
+      ).thenAnswer((_) async => [tStreamModel]);
 
       final result = await repository.getStreams(categoryId: 'c1');
 
-      result.fold(
-        (l) => fail('Expected Right'),
-        (r) {
-          expect(r, isA<List<StreamEntity>>());
-          expect(r, equals([tStreamEntity]));
-        },
-      );
+      result.fold((l) => fail('Expected Right'), (r) {
+        expect(r, isA<List<StreamEntity>>());
+        expect(r, equals([tStreamEntity]));
+      });
       verify(mockRemoteDataSource.getStreams(categoryId: 'c1')).called(1);
     });
 
     test('should return Left(ServerFailure) on ServerException', () async {
-      when(mockRemoteDataSource.getStreams(categoryId: anyNamed('categoryId')))
-          .thenThrow(ServerException('error message'));
+      when(
+        mockRemoteDataSource.getStreams(categoryId: anyNamed('categoryId')),
+      ).thenThrow(ServerException('error message'));
 
       final result = await repository.getStreams();
 
-      result.fold(
-        (l) {
-          expect(l, isA<ServerFailure>());
-          expect(l.message, 'error message');
-        },
-        (r) => fail('Expected Left'),
-      );
+      result.fold((l) {
+        expect(l, isA<ServerFailure>());
+        expect(l.message, 'error message');
+      }, (r) => fail('Expected Left'));
     });
   });
 
   group('getCategories', () {
     test('should return Right(List<CategoryEntity>) on success', () async {
-      when(mockRemoteDataSource.getCategories())
-          .thenAnswer((_) async => [tCategoryModel]);
+      when(
+        mockRemoteDataSource.getCategories(),
+      ).thenAnswer((_) async => [tCategoryModel]);
 
       final result = await repository.getCategories();
 
-      result.fold(
-        (l) => fail('Expected Right'),
-        (r) {
-          expect(r, isA<List<CategoryEntity>>());
-          expect(r, equals([tCategoryEntity]));
-        },
-      );
+      result.fold((l) => fail('Expected Right'), (r) {
+        expect(r, isA<List<CategoryEntity>>());
+        expect(r, equals([tCategoryEntity]));
+      });
     });
 
     test('should return Left(ServerFailure) on Exception', () async {
-      when(mockRemoteDataSource.getCategories())
-          .thenThrow(Exception('error'));
+      when(mockRemoteDataSource.getCategories()).thenThrow(Exception('error'));
 
       final result = await repository.getCategories();
 
-      result.fold(
-        (l) {
-          expect(l, isA<ServerFailure>());
-          expect(l.message, 'Exception: error');
-        },
-        (r) => fail('Expected Left'),
-      );
+      result.fold((l) {
+        expect(l, isA<ServerFailure>());
+        expect(l.message, 'Exception: error');
+      }, (r) => fail('Expected Left'));
     });
   });
 
   group('followStreamer', () {
     test('should return Right(StreamEntity) on success', () async {
-      when(mockRemoteDataSource.followStreamer(any))
-          .thenAnswer((_) async => tStreamModel);
+      when(
+        mockRemoteDataSource.followStreamer(any),
+      ).thenAnswer((_) async => tStreamModel);
 
       final result = await repository.followStreamer('s1');
 
@@ -117,18 +104,16 @@ void main() {
     });
 
     test('should return Left(ServerFailure) on ServerException', () async {
-      when(mockRemoteDataSource.followStreamer(any))
-          .thenThrow(ServerException('not found'));
+      when(
+        mockRemoteDataSource.followStreamer(any),
+      ).thenThrow(ServerException('not found'));
 
       final result = await repository.followStreamer('s1');
 
-      result.fold(
-        (l) {
-          expect(l, isA<ServerFailure>());
-          expect(l.message, 'not found');
-        },
-        (r) => fail('Expected Left'),
-      );
+      result.fold((l) {
+        expect(l, isA<ServerFailure>());
+        expect(l.message, 'not found');
+      }, (r) => fail('Expected Left'));
     });
   });
 }

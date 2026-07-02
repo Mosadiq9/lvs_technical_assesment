@@ -20,12 +20,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> signInWithGoogle() async {
     try {
-      // Ensure plugin is initialized in v7+ with serverClientId for Firebase
       await _googleSignIn.initialize(
         serverClientId: Environment.googleServerClientId,
       );
-      
-      // Use authenticate() in v7+ instead of signIn()
+
       final googleUser = await _googleSignIn.authenticate();
       final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
@@ -33,7 +31,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         idToken: googleAuth.idToken,
       );
 
-      final fb.UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
+      final fb.UserCredential userCredential = await _firebaseAuth
+          .signInWithCredential(credential);
       final fb.User? user = userCredential.user;
 
       if (user == null) {

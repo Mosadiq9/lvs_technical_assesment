@@ -9,9 +9,8 @@ class AliveApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Setting up ScreenUtil with standard mobile dimensions
     return ScreenUtilInit(
-      designSize: const Size(375, 812), // iPhone X/11/12 size, matches standard designs
+      designSize: const Size(375, 812),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {

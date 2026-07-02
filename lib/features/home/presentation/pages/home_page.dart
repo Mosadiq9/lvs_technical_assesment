@@ -13,6 +13,7 @@ import '../../../stream/presentation/providers/stream_providers.dart';
 import '../../../stream/presentation/providers/stream_state.dart';
 import '../../../stream/presentation/widgets/category_filter_list.dart';
 import '../../../stream/presentation/widgets/stream_grid.dart';
+import '../widgets/shimmer/home_shimmer.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -62,8 +63,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                             _topTabs[index],
                             style: GoogleFonts.inter(
                               fontSize: 16.sp,
-                              fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-                              color: isSelected ? AppColors.primary : const Color(0xFF9E9E9E),
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.w500,
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : const Color(0xFF9E9E9E),
                             ),
                           ),
                           SizedBox(height: 6.h),
@@ -71,7 +76,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                             height: 2.5.h,
                             width: 28.w,
                             decoration: BoxDecoration(
-                              color: isSelected ? AppColors.primary : Colors.transparent,
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : Colors.transparent,
                               borderRadius: BorderRadius.circular(2.r),
                             ),
                           ),
@@ -85,23 +92,31 @@ class _HomePageState extends ConsumerState<HomePage> {
             SizedBox(height: 12.h),
             Expanded(
               child: switch (streamState) {
-                StreamStateLoading() => const Center(
-                    child: CircularProgressIndicator(color: AppColors.primary),
-                  ),
+                StreamStateLoading() => const HomeShimmer(),
                 StreamStateError(:final message) => Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(message, style: const TextStyle(color: AppColors.error)),
-                        SizedBox(height: 16.h),
-                        ElevatedButton(
-                          onPressed: () => ref.read(streamViewModelProvider.notifier).loadInitialData(),
-                          child: const Text('Retry'),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        message,
+                        style: const TextStyle(color: AppColors.error),
+                      ),
+                      SizedBox(height: 16.h),
+                      ElevatedButton(
+                        onPressed: () => ref
+                            .read(streamViewModelProvider.notifier)
+                            .loadInitialData(),
+                        child: const Text('Retry'),
+                      ),
+                    ],
                   ),
-                StreamStateLoaded(:final categories, :final streams, :final selectedCategoryId) => Column(
+                ),
+                StreamStateLoaded(
+                  :final categories,
+                  :final streams,
+                  :final selectedCategoryId,
+                ) =>
+                  Column(
                     children: [
                       CategoryFilterList(
                         categories: categories,
@@ -113,7 +128,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                         flagSpacing: 6.0,
                         fontSize: 12.0,
                         onCategorySelected: (id) {
-                          ref.read(streamViewModelProvider.notifier).selectCategory(id);
+                          ref
+                              .read(streamViewModelProvider.notifier)
+                              .selectCategory(id);
                         },
                       ),
                       SizedBox(height: 8.h),
@@ -121,10 +138,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                         child: StreamGrid(
                           streams: streams,
                           onToggleFollow: (id) {
-                            ref.read(streamViewModelProvider.notifier).toggleFollow(id);
+                            ref
+                                .read(streamViewModelProvider.notifier)
+                                .toggleFollow(id);
                           },
                           onCardTap: (stream) {
-                            context.showSnackBar('Joining ${stream.streamerName}\'s live stream!');
+                            context.showSnackBar(
+                              'Joining ${stream.streamerName}\'s live stream!',
+                            );
                           },
                         ),
                       ),
@@ -141,7 +162,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         notchRadius: 34.0,
         notchDepth: 36.0,
         notchSmoothness: 22.0,
-        bottomGap: 0.0, // Manually control gap below bottom navbar (set negative e.g. -15.0 to pull down, positive to lift up)
+        bottomGap: 0.0,
         onTap: (index) {
           setState(() => _currentNavIndex = index);
           if (index == 4) {
@@ -166,12 +187,25 @@ class _HomePageState extends ConsumerState<HomePage> {
           children: [
             Text(
               'User Settings & Account',
-              style: GoogleFonts.inter(fontSize: 18.sp, fontWeight: FontWeight.bold, color: Colors.black87),
+              style: GoogleFonts.inter(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
             ),
             SizedBox(height: 20.h),
             ListTile(
-              leading: const Icon(CupertinoIcons.square_arrow_right, color: AppColors.error),
-              title: Text('Sign Out', style: GoogleFonts.inter(color: AppColors.error, fontWeight: FontWeight.w600)),
+              leading: const Icon(
+                CupertinoIcons.square_arrow_right,
+                color: AppColors.error,
+              ),
+              title: Text(
+                'Sign Out',
+                style: GoogleFonts.inter(
+                  color: AppColors.error,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               onTap: () {
                 Navigator.pop(ctx);
                 ref.read(authViewModelProvider.notifier).signOut();

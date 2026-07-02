@@ -8,7 +8,6 @@ class CategoryFilterList extends StatelessWidget {
   final String selectedCategoryId;
   final ValueChanged<String> onCategorySelected;
 
-  // ─── Control Country Chip Dimensions Here! ───
   final double chipHeight;
   final double chipHorizontalPadding;
   final double chipBorderRadius;
@@ -22,19 +21,18 @@ class CategoryFilterList extends StatelessWidget {
     required this.categories,
     required this.selectedCategoryId,
     required this.onCategorySelected,
-    this.chipHeight = 30.0,            // Individual chip height (try 26, 28, 30, 32!)
-    this.chipHorizontalPadding = 12.0, // Internal left/right padding inside each chip
-    this.chipBorderRadius = 100.0,     // Roundness of each chip
-    this.flagWidth = 14.0,             // Country flag width
-    this.flagHeight = 10.0,            // Country flag height
-    this.flagSpacing = 6.0,            // Gap between country flag and text label
-    this.fontSize = 12.0,              // Font size of country text label
+    this.chipHeight = 30.0,
+    this.chipHorizontalPadding = 12.0,
+    this.chipBorderRadius = 100.0,
+    this.flagWidth = 14.0,
+    this.flagHeight = 10.0,
+    this.flagSpacing = 6.0,
+    this.fontSize = 12.0,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // Outer height dynamically adjusts to your exact chipHeight so it never gets cut off or forced!
       height: (chipHeight + 6.0).h,
       child: ListView.separated(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -43,7 +41,6 @@ class CategoryFilterList extends StatelessWidget {
         separatorBuilder: (context, index) => SizedBox(width: 8.w),
         itemBuilder: (context, index) {
           final category = categories[index];
-          // Wrapping in Center allows the chip to strictly obey chipHeight without ListView stretching it!
           return Center(
             child: CategoryChip(
               label: category.name,

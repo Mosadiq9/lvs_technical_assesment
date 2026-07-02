@@ -54,7 +54,8 @@ class LoginPage extends ConsumerWidget {
                               LoginForm(
                                 onLoginPressed: () {
                                   context.showSnackBar(
-                                      'Please use Continue with Google.');
+                                    'Please use Continue with Google.',
+                                  );
                                 },
                                 isLoading: isLoading,
                               ),
@@ -65,7 +66,9 @@ class LoginPage extends ConsumerWidget {
                         Expanded(
                           child: LoginFooter(
                             onGooglePressed: () {
-                              ref.read(authViewModelProvider.notifier).signInWithGoogle();
+                              ref
+                                  .read(authViewModelProvider.notifier)
+                                  .signInWithGoogle();
                             },
                           ),
                         ),

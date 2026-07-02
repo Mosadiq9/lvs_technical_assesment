@@ -7,7 +7,10 @@ import '../errors/exceptions.dart';
 
 class AuthInterceptor extends Interceptor {
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     try {
       final currentUser = fb.FirebaseAuth.instance.currentUser;
       if (currentUser != null) {
@@ -45,7 +48,9 @@ class LoggingInterceptor extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     if (kDebugMode) {
-      debugPrint('<-- ERROR ${err.response?.statusCode} ${err.requestOptions.uri}');
+      debugPrint(
+        '<-- ERROR ${err.response?.statusCode} ${err.requestOptions.uri}',
+      );
       debugPrint('Message: ${err.message}');
     }
     super.onError(err, handler);
@@ -56,7 +61,8 @@ class ApiClient {
   late final Dio _dio;
 
   ApiClient({Dio? dio}) {
-    _dio = dio ??
+    _dio =
+        dio ??
         Dio(
           BaseOptions(
             baseUrl: Environment.apiBaseUrl,
@@ -66,13 +72,13 @@ class ApiClient {
           ),
         );
 
-    _dio.interceptors.addAll([
-      AuthInterceptor(),
-      LoggingInterceptor(),
-    ]);
+    _dio.interceptors.addAll([AuthInterceptor(), LoggingInterceptor()]);
   }
 
-  Future<dynamic> get(String path, {Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
       final response = await _dio.get(path, queryParameters: queryParameters);
       return response.data;
@@ -81,9 +87,17 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> post(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> post(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await _dio.post(path, data: data, queryParameters: queryParameters);
+      final response = await _dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return response.data;
     } on DioException catch (e) {
       throw _handleError(e);
@@ -96,13 +110,17 @@ class ApiClient {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
       case DioExceptionType.connectionError:
-        return NetworkException('Network timeout or connection error: ${e.message}');
+        return NetworkException(
+          'Network timeout or connection error: ${e.message}',
+        );
       case DioExceptionType.badResponse:
         final statusCode = e.response?.statusCode;
         if (statusCode == 401 || statusCode == 403) {
           return AuthException('Unauthorized access ($statusCode)');
         }
-        return ServerException('Server error ($statusCode): ${e.response?.statusMessage}');
+        return ServerException(
+          'Server error ($statusCode): ${e.response?.statusMessage}',
+        );
       default:
         return ServerException('Unexpected error: ${e.message}');
     }

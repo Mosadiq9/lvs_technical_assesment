@@ -16,7 +16,8 @@ abstract class UserModel with _$UserModel {
     String? photoUrl,
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 
   factory UserModel.fromFirebaseUser(fb.User user) {
     return UserModel(

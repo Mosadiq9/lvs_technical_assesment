@@ -15,40 +15,29 @@ class LoginFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // =========================================================================
-    // 🎛️ MANUAL CONTROLS: ADJUST THESE TO LIFT & POSITION THE BOTTOM WAVE
-    // =========================================================================
-    // 1. GREEN WAVE VERTICAL LIFT:
-    // A negative number lifts the green wave higher up towards the Login button.
-    // Try changing -70.h to -100.h (higher up) or -30.h (lower down).
     final double waveLiftOffset = -10.h;
 
-    // 2. TOP SPACE ABOVE SOCIAL LOGIN SECTION:
-    // Controls how far below the login form the divider & Google button sit.
     final double socialSectionTopPadding = 80.h;
-    // =========================================================================
+
+    final double googleLogoSize = 24.w;
+    final double facebookLogoSize = 24.w;
 
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.topCenter,
       children: [
-        // 1. Background image replacing green wave, manually lifted up
         Positioned(
           top: waveLiftOffset,
           left: 0,
           right: 0,
           bottom: 0,
-          child: Image.asset(
-            AppAssets.loginBg,
-            fit: BoxFit.fill,
-          ),
+          child: Image.asset(AppAssets.loginBg, fit: BoxFit.fill),
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Uses manual control above
               SizedBox(height: socialSectionTopPadding),
               Row(
                 children: [
@@ -77,43 +66,31 @@ class LoginFooter extends StatelessWidget {
                   ),
                 ],
               ),
-              // ─── CONTROL 2: GAP BETWEEN DIVIDER & GOOGLE BUTTON ───
-              // Increase this (e.g. from 16.h to 40.h or 50.h) to push ONLY the Google button further down below the divider!
-                SizedBox(height: 16.h),
-              // 5. Reduce Google button height slightly (42.h)
-              _SocialPillButton(
-                onTap: onGooglePressed,
-                iconWidget: Image.asset(
-                  'assets/icons/google.png',
-                  width: 18.w,
-                  height: 18.w,
-                  errorBuilder: (_, __, ___) => Icon(
-                    Icons.g_mobiledata_rounded,
-                    color: Colors.blue.shade700,
-                    size: 24.w,
-                  ),
-                ),
-                label: 'Continue with Google',
-              ),
-              
-              
               SizedBox(height: 16.h),
-              // 5. Reduce Google button height slightly (42.h)
               _SocialPillButton(
                 onTap: onGooglePressed,
                 iconWidget: Image.asset(
                   'assets/icons/google.png',
-                  width: 18.w,
-                  height: 18.w,
+                  width: googleLogoSize,
+                  height: googleLogoSize,
                   errorBuilder: (_, __, ___) => Icon(
                     Icons.g_mobiledata_rounded,
                     color: Colors.blue.shade700,
-                    size: 24.w,
+                    size: googleLogoSize + 6.w,
                   ),
                 ),
                 label: 'Continue with Google',
               ),
-              // 6. Facebook Login button removed completely per technical assessment requirement
+              SizedBox(height: 16.h),
+              _SocialPillButton(
+                onTap: onFacebookPressed ?? () {},
+                iconWidget: Icon(
+                  Icons.facebook_rounded,
+                  color: Colors.blue.shade700,
+                  size: facebookLogoSize,
+                ),
+                label: 'Continue with Facebook',
+              ),
               SizedBox(height: 15.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

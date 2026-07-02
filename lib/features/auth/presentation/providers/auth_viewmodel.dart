@@ -13,24 +13,21 @@ class AuthViewModel extends StateNotifier<AuthState> {
     required SignInWithGoogleUseCase signInWithGoogleUseCase,
     required SignOutUseCase signOutUseCase,
     required GetCurrentUserUseCase getCurrentUserUseCase,
-  })  : _signInWithGoogleUseCase = signInWithGoogleUseCase,
-        _signOutUseCase = signOutUseCase,
-        _getCurrentUserUseCase = getCurrentUserUseCase,
-        super(const AuthState.initial());
+  }) : _signInWithGoogleUseCase = signInWithGoogleUseCase,
+       _signOutUseCase = signOutUseCase,
+       _getCurrentUserUseCase = getCurrentUserUseCase,
+       super(const AuthState.initial());
 
   Future<void> checkCurrentUser() async {
     state = const AuthState.loading();
     final result = await _getCurrentUserUseCase();
-    result.fold(
-      (failure) => state = const AuthState.unauthenticated(),
-      (user) {
-        if (user != null) {
-          state = AuthState.authenticated(user);
-        } else {
-          state = const AuthState.unauthenticated();
-        }
-      },
-    );
+    result.fold((failure) => state = const AuthState.unauthenticated(), (user) {
+      if (user != null) {
+        state = AuthState.authenticated(user);
+      } else {
+        state = const AuthState.unauthenticated();
+      }
+    });
   }
 
   Future<void> signInWithGoogle() async {

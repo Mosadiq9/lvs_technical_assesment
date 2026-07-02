@@ -33,14 +33,10 @@ class CircularIconButton extends StatelessWidget {
                   color: AppColors.primary.withValues(alpha: 0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
-                )
+                ),
               ],
             ),
-            child: Icon(
-              icon,
-              color: Colors.white,
-              size: 20.w,
-            ),
+            child: Icon(icon, color: Colors.white, size: 20.w),
           ),
         ),
         if (badgeCount != null && badgeCount! > 0)

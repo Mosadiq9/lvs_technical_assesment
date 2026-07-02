@@ -45,9 +45,7 @@ class _AppTextFieldState extends State<AppTextField> {
           controller: widget.controller,
           obscureText: widget.isPassword ? _obscureText : false,
           validator: widget.validator,
-          style: AppTextStyles.body.copyWith(
-            fontSize: 16.sp,
-          ),
+          style: AppTextStyles.body.copyWith(fontSize: 16.sp),
           decoration: InputDecoration(
             hintText: widget.hint,
             suffixIcon: widget.isPassword

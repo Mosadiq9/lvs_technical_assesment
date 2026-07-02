@@ -41,7 +41,7 @@ class AppTextStyles {
     fontWeight: FontWeight.normal,
     color: AppColors.textSecondary,
   );
-  
+
   static TextStyle get buttonText => GoogleFonts.inter(
     fontSize: 16.sp,
     fontWeight: FontWeight.w600,

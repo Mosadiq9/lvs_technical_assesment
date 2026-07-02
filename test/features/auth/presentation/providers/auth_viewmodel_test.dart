@@ -18,7 +18,7 @@ void main() {
     mockSignInUseCase = MockSignInWithGoogleUseCase();
     mockSignOutUseCase = MockSignOutUseCase();
     mockGetCurrentUserUseCase = MockGetCurrentUserUseCase();
-    
+
     viewModel = AuthViewModel(
       signInWithGoogleUseCase: mockSignInUseCase,
       signOutUseCase: mockSignOutUseCase,
@@ -34,7 +34,9 @@ void main() {
 
   group('signInWithGoogle', () {
     test('emits loading then authenticated on success', () async {
-      when(mockSignInUseCase.call()).thenAnswer((_) async => const Right(tUser));
+      when(
+        mockSignInUseCase.call(),
+      ).thenAnswer((_) async => const Right(tUser));
 
       final expectedStates = [
         const AuthState.loading(),
@@ -47,7 +49,9 @@ void main() {
     });
 
     test('emits loading then error on failure', () async {
-      when(mockSignInUseCase.call()).thenAnswer((_) async => const Left(AuthFailure('error')));
+      when(
+        mockSignInUseCase.call(),
+      ).thenAnswer((_) async => const Left(AuthFailure('error')));
 
       final expectedStates = [
         const AuthState.loading(),
@@ -62,7 +66,9 @@ void main() {
 
   group('signOut', () {
     test('emits loading then unauthenticated on success', () async {
-      when(mockSignOutUseCase.call()).thenAnswer((_) async => const Right(null));
+      when(
+        mockSignOutUseCase.call(),
+      ).thenAnswer((_) async => const Right(null));
 
       final expectedStates = [
         const AuthState.loading(),
@@ -75,7 +81,9 @@ void main() {
     });
 
     test('emits loading then error on failure', () async {
-      when(mockSignOutUseCase.call()).thenAnswer((_) async => const Left(AuthFailure('error')));
+      when(
+        mockSignOutUseCase.call(),
+      ).thenAnswer((_) async => const Left(AuthFailure('error')));
 
       final expectedStates = [
         const AuthState.loading(),
@@ -90,7 +98,9 @@ void main() {
 
   group('checkCurrentUser', () {
     test('emits loading then authenticated when user exists', () async {
-      when(mockGetCurrentUserUseCase.call()).thenAnswer((_) async => const Right(tUser));
+      when(
+        mockGetCurrentUserUseCase.call(),
+      ).thenAnswer((_) async => const Right(tUser));
 
       final expectedStates = [
         const AuthState.loading(),
@@ -103,7 +113,9 @@ void main() {
     });
 
     test('emits loading then unauthenticated when user is null', () async {
-      when(mockGetCurrentUserUseCase.call()).thenAnswer((_) async => const Right(null));
+      when(
+        mockGetCurrentUserUseCase.call(),
+      ).thenAnswer((_) async => const Right(null));
 
       final expectedStates = [
         const AuthState.loading(),
@@ -116,7 +128,9 @@ void main() {
     });
 
     test('emits loading then unauthenticated on failure', () async {
-      when(mockGetCurrentUserUseCase.call()).thenAnswer((_) async => const Left(ServerFailure('error')));
+      when(
+        mockGetCurrentUserUseCase.call(),
+      ).thenAnswer((_) async => const Left(ServerFailure('error')));
 
       final expectedStates = [
         const AuthState.loading(),

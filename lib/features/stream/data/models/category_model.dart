@@ -14,13 +14,10 @@ abstract class CategoryModel with _$CategoryModel {
     required String flagAsset,
   }) = _CategoryModel;
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) => _$CategoryModelFromJson(json);
+  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
+      _$CategoryModelFromJson(json);
 
   CategoryEntity toEntity() {
-    return CategoryEntity(
-      id: id,
-      name: name,
-      flagAsset: flagAsset,
-    );
+    return CategoryEntity(id: id, name: name, flagAsset: flagAsset);
   }
 }

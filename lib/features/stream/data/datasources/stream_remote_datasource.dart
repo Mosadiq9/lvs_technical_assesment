@@ -25,7 +25,11 @@ class StreamRemoteDataSourceImpl implements StreamRemoteDataSource {
         query = query.where('categoryId', isEqualTo: categoryId);
       }
       final snapshot = await query.get();
-      return snapshot.docs.map((doc) => StreamModel.fromJson(doc.data() as Map<String, dynamic>)).toList();
+      return snapshot.docs
+          .map(
+            (doc) => StreamModel.fromJson(doc.data() as Map<String, dynamic>),
+          )
+          .toList();
     } catch (e) {
       throw ServerException('Failed to fetch streams: $e');
     }
@@ -35,7 +39,9 @@ class StreamRemoteDataSourceImpl implements StreamRemoteDataSource {
   Future<List<CategoryModel>> getCategories() async {
     try {
       final snapshot = await firestore.collection('categories').get();
-      return snapshot.docs.map((doc) => CategoryModel.fromJson(doc.data())).toList();
+      return snapshot.docs
+          .map((doc) => CategoryModel.fromJson(doc.data()))
+          .toList();
     } catch (e) {
       throw ServerException('Failed to fetch categories: $e');
     }
@@ -46,16 +52,16 @@ class StreamRemoteDataSourceImpl implements StreamRemoteDataSource {
     try {
       final docRef = firestore.collection('streams').doc(streamId);
       final snapshot = await docRef.get();
-      
+
       if (!snapshot.exists) {
         throw ServerException('Stream not found');
       }
 
       final data = snapshot.data()!;
       final currentFollowStatus = data['isFollowed'] as bool? ?? false;
-      
+
       await docRef.update({'isFollowed': !currentFollowStatus});
-      
+
       final updatedSnapshot = await docRef.get();
       return StreamModel.fromJson(updatedSnapshot.data()!);
     } catch (e) {

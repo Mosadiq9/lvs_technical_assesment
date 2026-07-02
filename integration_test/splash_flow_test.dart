@@ -15,7 +15,7 @@ void main() {
   group('Splash Flow Integration Tests', () {
     testWidgets('splash screen shows app logo', (tester) async {
       await tester.pumpWidget(createTestApp());
-      
+
       // Wait for first frame
       await tester.pump();
 
@@ -25,23 +25,23 @@ void main() {
 
     testWidgets('splash screen navigates to login after delay', (tester) async {
       await tester.pumpWidget(createTestApp());
-      
+
       // Pump initial frame
       await tester.pump();
-      
+
       // Wait for splash duration (AppDurations.splash is 2500ms)
       await tester.pump(const Duration(milliseconds: 2600));
-      
+
       // Allow router to navigate
       await tester.pumpAndSettle();
 
       // Verify login header text is visible
       expect(find.text('Welcome back! 👋'), findsOneWidget);
     });
-    
+
     testWidgets('splash animation runs', (tester) async {
       await tester.pumpWidget(createTestApp());
-      
+
       // Initially AnimatedBuilder should be present
       expect(find.byType(AnimatedBuilder), findsOneWidget);
     });

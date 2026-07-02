@@ -28,19 +28,17 @@ class LiveStreamCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20.r), // Increased corner radius
+        borderRadius: BorderRadius.circular(20.r),
         child: Stack(
           fit: StackFit.expand,
           children: [
-            // Background Image with proper BoxFit.cover
             NetworkImageWidget(
               imageUrl: imageUrl,
               width: double.infinity,
               height: double.infinity,
               fit: BoxFit.cover,
             ),
-            
-            // Black transparent bottom gradient overlay for text readability
+
             Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
@@ -58,8 +56,7 @@ class LiveStreamCard extends StatelessWidget {
                 ),
               ),
             ),
-            
-            // Viewer Count Badge (Top Left Corner exactly like reference)
+
             Positioned(
               top: 10.h,
               left: 10.w,
@@ -72,7 +69,11 @@ class LiveStreamCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(CupertinoIcons.eye_fill, color: Colors.white, size: 11.w),
+                    Icon(
+                      CupertinoIcons.eye_fill,
+                      color: Colors.white,
+                      size: 11.w,
+                    ),
                     SizedBox(width: 4.w),
                     Text(
                       viewerCount,
@@ -86,8 +87,7 @@ class LiveStreamCard extends StatelessWidget {
                 ),
               ),
             ),
-            
-            // Bottom Info Section
+
             Positioned(
               bottom: 10.h,
               left: 10.w,
@@ -95,7 +95,6 @@ class LiveStreamCard extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Transparent Ring Indicator matching reference UI
                   Container(
                     width: 26.w,
                     height: 26.w,
@@ -109,8 +108,7 @@ class LiveStreamCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8.w),
-                  
-                  // Username and Country Flag aligned exactly
+
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,12 +139,14 @@ class LiveStreamCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 4.w),
-                  
-                  // Follow Button (Compact bright yellow pill, smaller size & refined typography)
+
                   GestureDetector(
                     onTap: onFollow,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 3.h),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 7.w,
+                        vertical: 3.h,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFD500),
                         borderRadius: BorderRadius.circular(100.r),

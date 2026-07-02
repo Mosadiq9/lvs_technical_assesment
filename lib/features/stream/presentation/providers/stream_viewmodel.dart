@@ -13,10 +13,10 @@ class StreamViewModel extends StateNotifier<StreamState> {
     required GetStreamsUseCase getStreamsUseCase,
     required GetCategoriesUseCase getCategoriesUseCase,
     required FollowStreamerUseCase followStreamerUseCase,
-  })  : _getStreamsUseCase = getStreamsUseCase,
-        _getCategoriesUseCase = getCategoriesUseCase,
-        _followStreamerUseCase = followStreamerUseCase,
-        super(const StreamState.initial()) {
+  }) : _getStreamsUseCase = getStreamsUseCase,
+       _getCategoriesUseCase = getCategoriesUseCase,
+       _followStreamerUseCase = followStreamerUseCase,
+       super(const StreamState.initial()) {
     loadInitialData();
   }
 
@@ -66,15 +66,12 @@ class StreamViewModel extends StateNotifier<StreamState> {
     if (currentState is! StreamStateLoaded) return;
 
     final result = await _followStreamerUseCase(streamId);
-    result.fold(
-      (failure) {}, // Could log or show error snackbar
-      (updatedStream) {
-        final updatedList = currentState.streams.map((s) {
-          return s.id == streamId ? updatedStream : s;
-        }).toList();
+    result.fold((failure) {}, (updatedStream) {
+      final updatedList = currentState.streams.map((s) {
+        return s.id == streamId ? updatedStream : s;
+      }).toList();
 
-        state = currentState.copyWith(streams: updatedList);
-      },
-    );
+      state = currentState.copyWith(streams: updatedList);
+    });
   }
 }

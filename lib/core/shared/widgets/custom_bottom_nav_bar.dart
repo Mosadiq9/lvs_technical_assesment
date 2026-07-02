@@ -10,36 +10,35 @@ class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
 
-  // Customizable parameters to easily control curve depth, notch gap, and roundness
   final double navbarTopOffset;
   final double floatingButtonSize;
-  final double notchMargin;        // Directly controls the transparent gap between hotspot button and green navbar
+  final double notchMargin;
   final double topCornerRadius;
-  final double? notchRadius;       // If null, computed automatically as (floatingButtonSize / 2) + notchMargin
+  final double? notchRadius;
   final double notchSmoothness;
-  final double? notchDepth;        // If null, computed automatically to match notchRadius
-  final double bottomGap;          // Manually control space below bottom navbar (set 0.0 to sit flush at screen bottom)
+  final double? notchDepth;
+  final double bottomGap;
 
   const CustomBottomNavigationBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
-    this.navbarTopOffset = 24.0,       // Height reserved above the green bar for the top half of floating button
-    this.floatingButtonSize = 56.0,    // Diameter of the white circular Go Live button
-    this.notchMargin = 4.0,            // Direct transparent gap around the button
-    this.topCornerRadius = 26.0,       // Roundness of left and right top corners of navbar
-    this.notchRadius,                  // Automatically calculated if null
-    this.notchSmoothness = 20.0,       // Smoothness/width of bezier transition entering the notch
-    this.notchDepth,                   // Automatically calculated if null
-    this.bottomGap = 0.0,              // 0.0 removes system gap so navbar touches bottom edge
+    this.navbarTopOffset = 24.0,
+    this.floatingButtonSize = 56.0,
+    this.notchMargin = 4.0,
+    this.topCornerRadius = 26.0,
+    this.notchRadius,
+    this.notchSmoothness = 20.0,
+    this.notchDepth,
+    this.bottomGap = 0.0,
   });
 
   @override
   Widget build(BuildContext context) {
-    final double effectiveNotchRadius = notchRadius ?? ((floatingButtonSize / 2) + notchMargin);
+    final double effectiveNotchRadius =
+        notchRadius ?? ((floatingButtonSize / 2) + notchMargin);
     final double effectiveNotchDepth = notchDepth ?? effectiveNotchRadius;
 
-    // Transparent container so content shines through the curved cutout
     return Container(
       color: Colors.transparent,
       child: Padding(
@@ -51,7 +50,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             clipBehavior: Clip.none,
             children: [
-              // 1. Curved Background with Horizontal Linear Gradient & Shadow
               Positioned.fill(
                 child: CustomPaint(
                   painter: _NavBarBackgroundPainter(
@@ -64,7 +62,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 ),
               ),
 
-              // 2. Navigation Items Row (Home, Party, [Space], Chats, Profile)
               Positioned(
                 top: navbarTopOffset.h,
                 bottom: 0,
@@ -92,7 +89,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                           onTap: () => onTap(1),
                         ),
                       ),
-                      // Center Space (Reserved for Go Live notch)
                       Expanded(
                         child: GestureDetector(
                           onTap: () => onTap(2),
@@ -104,8 +100,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
                                 'Go Live',
                                 style: GoogleFonts.inter(
                                   fontSize: 11.sp,
-                                  fontWeight: currentIndex == 2 ? FontWeight.w700 : FontWeight.w500,
-                                  color: currentIndex == 2 ? Colors.white : Colors.white.withValues(alpha: 0.75),
+                                  fontWeight: currentIndex == 2
+                                      ? FontWeight.w700
+                                      : FontWeight.w500,
+                                  color: currentIndex == 2
+                                      ? Colors.white
+                                      : Colors.white.withValues(alpha: 0.75),
                                 ),
                               ),
                               SizedBox(height: 8.h),
@@ -134,7 +134,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 ),
               ),
 
-              // 3. Independent Floating Center Button (Go Live)
               Positioned(
                 top: navbarTopOffset.h - (floatingButtonSize.w / 2),
                 child: GestureDetector(
@@ -156,7 +155,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                     child: Center(
                       child: Icon(
                         Icons.sensors,
-                        color: const Color(0xFF19B200), // Vibrant green broadcast icon
+                        color: const Color(0xFF19B200),
                         size: 28.w,
                       ),
                     ),
@@ -186,7 +185,9 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color itemColor = isSelected ? Colors.white : Colors.white.withValues(alpha: 0.70);
+    final Color itemColor = isSelected
+        ? Colors.white
+        : Colors.white.withValues(alpha: 0.70);
 
     return GestureDetector(
       onTap: onTap,
@@ -194,11 +195,7 @@ class _NavItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            color: itemColor,
-            size: 24.w,
-          ),
+          Icon(icon, color: itemColor, size: 24.w),
           SizedBox(height: 4.h),
           Text(
             label,
@@ -236,48 +233,44 @@ class _NavBarBackgroundPainter extends CustomPainter {
     final double top = topOffset;
     final double notchBottomY = top + notchDepth;
 
-    // Build the smooth symmetrical curved shape
     path.moveTo(0, size.height);
     path.lineTo(0, top + topCornerRadius);
     path.quadraticBezierTo(0, top, topCornerRadius, top);
 
-    // Flat line to left start of center notch
     final double leftNotchStart = center - notchRadius - notchSmoothness;
     path.lineTo(leftNotchStart, top);
 
-    // Left half of continuous U curve: smooth horizontal shoulder into vertical U wall down to flat bottom center
     path.cubicTo(
-      leftNotchStart + (notchSmoothness * 0.65), top, // Control point 1: gently curve off top edge
-      center - (notchRadius * 0.55), notchBottomY,      // Control point 2: approach bottom center horizontally
-      center, notchBottomY,                           // End point: exact bottom center of U
+      leftNotchStart + (notchSmoothness * 0.65),
+      top,
+      center - (notchRadius * 0.55),
+      notchBottomY,
+      center,
+      notchBottomY,
     );
 
-    // Right half of continuous U curve: flat bottom center up vertical U wall to smooth horizontal shoulder
     final double rightNotchEnd = center + notchRadius + notchSmoothness;
     path.cubicTo(
-      center + (notchRadius * 0.55), notchBottomY,      // Control point 1: exact mirror tangent at bottom center
-      rightNotchEnd - (notchSmoothness * 0.65), top,  // Control point 2: approach right top edge horizontally
-      rightNotchEnd, top,                             // End point: back on flat top edge
+      center + (notchRadius * 0.55),
+      notchBottomY,
+      rightNotchEnd - (notchSmoothness * 0.65),
+      top,
+      rightNotchEnd,
+      top,
     );
 
-    // Flat line to right corner
     path.lineTo(size.width - topCornerRadius, top);
     path.quadraticBezierTo(size.width, top, size.width, top + topCornerRadius);
 
     path.lineTo(size.width, size.height);
     path.close();
 
-    // 1. Draw subtle shadow beneath/around the navigation bar
     canvas.drawShadow(path, Colors.black.withValues(alpha: 0.22), 8.0, false);
 
-    // 2. Draw horizontal linear gradient fill (lime/yellow-green to darker green)
     final Paint paint = Paint()
       ..isAntiAlias = true
       ..shader = const LinearGradient(
-        colors: [
-          Color(0xFFC8E800), // Bright lime/yellow-green left
-          Color(0xFF14B200), // Rich darker green right
-        ],
+        colors: [Color(0xFFC8E800), Color(0xFF14B200)],
         begin: Alignment.centerLeft,
         end: Alignment.centerRight,
       ).createShader(Rect.fromLTWH(0, top, size.width, size.height - top));

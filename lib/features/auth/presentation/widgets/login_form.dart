@@ -36,7 +36,6 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Email Label
           const _FieldLabel(text: 'Email ID or Phone Number'),
           SizedBox(height: 5.h),
           _InputField(
@@ -45,8 +44,7 @@ class _LoginFormState extends State<LoginForm> {
             keyboardType: TextInputType.emailAddress,
           ),
           SizedBox(height: 12.h),
-      
-          // Password Label
+
           const _FieldLabel(text: 'Password'),
           SizedBox(height: 5.h),
           _InputField(
@@ -60,15 +58,12 @@ class _LoginFormState extends State<LoginForm> {
                 _obscurePassword
                     ? Icons.remove_red_eye_outlined
                     : Icons.visibility_off_outlined,
-                // 10. Reduce password eye icon size (14.w)
                 color: const Color(0xFFBDBDBD),
                 size: 14.w,
               ),
             ),
           ),
-          // 11. Move "Forgot Password?" approximately 4dp upward (no gap above)
-      
-          // Forgot Password
+
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
@@ -91,8 +86,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           SizedBox(height: 14.h),
-      
-          // 8 & 15. Refine Login Button shadow and gradient
+
           _GradientLoginButton(
             onPressed: widget.onLoginPressed,
             isLoading: widget.isLoading,
@@ -138,16 +132,17 @@ class _InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // 9. Reduce both text field heights slightly (40.h)
       height: 50.h,
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
         keyboardType: keyboardType,
-        style: GoogleFonts.inter(fontSize: 14.sp, color: const Color(0xFF1E1E1E)),
+        style: GoogleFonts.inter(
+          fontSize: 14.sp,
+          color: const Color(0xFF1E1E1E),
+        ),
         decoration: InputDecoration(
           hintText: hint,
-          // 13. Lighten placeholder text color
           hintStyle: GoogleFonts.inter(
             fontSize: 16.sp,
             color: const Color(0xFFB5B5B5),
@@ -165,7 +160,10 @@ class _InputField extends StatelessWidget {
                   ),
                 )
               : null,
-          suffixIconConstraints: BoxConstraints(minWidth: 32.w, minHeight: 40.h),
+          suffixIconConstraints: BoxConstraints(
+            minWidth: 32.w,
+            minHeight: 40.h,
+          ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
             borderSide: BorderSide.none,
@@ -184,7 +182,10 @@ class _GradientLoginButton extends StatelessWidget {
   final VoidCallback onPressed;
   final bool isLoading;
 
-  const _GradientLoginButton({required this.onPressed, required this.isLoading});
+  const _GradientLoginButton({
+    required this.onPressed,
+    required this.isLoading,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -194,14 +195,12 @@ class _GradientLoginButton extends StatelessWidget {
         width: double.infinity,
         height: 45.h,
         decoration: BoxDecoration(
-          // 15. Slightly soften Login button gradient
           gradient: const LinearGradient(
             colors: [Color(0xFFB5E500), Color(0xFF19B500)],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
           borderRadius: BorderRadius.circular(24.r),
-          // 8. Reduce shadow opacity and blur
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF53C800).withValues(alpha: 0.12),
@@ -216,7 +215,9 @@ class _GradientLoginButton extends StatelessWidget {
                   width: 20.w,
                   height: 20.w,
                   child: const CircularProgressIndicator(
-                      color: Colors.white, strokeWidth: 2.2),
+                    color: Colors.white,
+                    strokeWidth: 2.2,
+                  ),
                 )
               : Text(
                   'Login',

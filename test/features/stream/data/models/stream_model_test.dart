@@ -82,7 +82,7 @@ void main() {
 
     test('StreamModel copyWith toggles isFollowed', () {
       final model = tStreamModel.copyWith(isFollowed: false);
-      
+
       expect(model.isFollowed, isFalse);
       expect(model.id, equals(tStreamModel.id));
     });
@@ -90,11 +90,7 @@ void main() {
 
   group('CategoryModel', () {
     test('CategoryModel fromJson creates model', () {
-      final jsonMap = {
-        'id': 'c_1',
-        'name': 'Gaming',
-        'flagAsset': 'us',
-      };
+      final jsonMap = {'id': 'c_1', 'name': 'Gaming', 'flagAsset': 'us'};
 
       final result = CategoryModel.fromJson(jsonMap);
 

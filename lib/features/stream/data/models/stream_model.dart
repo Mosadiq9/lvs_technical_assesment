@@ -19,7 +19,8 @@ abstract class StreamModel with _$StreamModel {
     @Default(false) bool isFollowed,
   }) = _StreamModel;
 
-  factory StreamModel.fromJson(Map<String, dynamic> json) => _$StreamModelFromJson(json);
+  factory StreamModel.fromJson(Map<String, dynamic> json) =>
+      _$StreamModelFromJson(json);
 
   StreamEntity toEntity() {
     return StreamEntity(

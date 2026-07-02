@@ -10,7 +10,6 @@ class CategoryChip extends StatelessWidget {
   final bool isSelected;
   final VoidCallback onTap;
 
-  // Customizable dimension parameters to easily adjust chip styling
   final double height;
   final double horizontalPadding;
   final double borderRadius;
@@ -26,14 +25,14 @@ class CategoryChip extends StatelessWidget {
     required this.flagAsset,
     required this.isSelected,
     required this.onTap,
-    this.height = 34.0,              // Chip overall height
-    this.horizontalPadding = 14.0,   // Internal left & right padding inside chip
-    this.borderRadius = 100.0,       // Corner radius (pill shape)
-    this.borderWidth = 1.0,          // Border thickness
-    this.flagWidth = 16.0,           // Flag icon width
-    this.flagHeight = 12.0,          // Flag icon height
-    this.flagSpacing = 6.0,          // Space between flag and text
-    this.fontSize = 13.0,            // Label font size
+    this.height = 34.0,
+    this.horizontalPadding = 14.0,
+    this.borderRadius = 100.0,
+    this.borderWidth = 1.0,
+    this.flagWidth = 16.0,
+    this.flagHeight = 12.0,
+    this.flagSpacing = 6.0,
+    this.fontSize = 13.0,
   });
 
   @override
@@ -44,7 +43,9 @@ class CategoryChip extends StatelessWidget {
         height: height.h,
         padding: EdgeInsets.symmetric(horizontal: horizontalPadding.w),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary.withValues(alpha: 0.12) : Colors.white,
+          color: isSelected
+              ? AppColors.primary.withValues(alpha: 0.12)
+              : Colors.white,
           borderRadius: BorderRadius.circular(borderRadius.r),
           border: Border.all(
             color: isSelected ? AppColors.primary : const Color(0xFFE0E0E0),

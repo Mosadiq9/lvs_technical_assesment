@@ -23,13 +23,10 @@ class TopAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Alive gradient logo badge on left matching login screen
           const AppLogo(size: 42),
-          
-          // Icons on right
+
           Row(
             children: [
-              // Notification icon with red badge
               GestureDetector(
                 onTap: onNotificationTap,
                 child: Stack(
@@ -56,8 +53,7 @@ class TopAppBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 16.w),
-              
-              // Green circular wallet / profile icon
+
               GestureDetector(
                 onTap: onNotificationTap,
                 child: Container(

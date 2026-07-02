@@ -15,13 +15,19 @@ class CountryFlag extends StatelessWidget {
 
   String _resolveAssetPath(String input) {
     final lower = input.toLowerCase().trim();
-    if (lower.contains('global') || lower.contains('all') || lower.contains('🌐') || lower == 'un') {
+    if (lower.contains('global') ||
+        lower.contains('all') ||
+        lower.contains('🌐') ||
+        lower == 'un') {
       return 'assets/images/flags/global.png';
     }
-    if (lower.contains('in') && (lower == 'in' || lower.contains('india') || lower.contains('🇮🇳'))) {
+    if (lower.contains('in') &&
+        (lower == 'in' || lower.contains('india') || lower.contains('🇮🇳'))) {
       return 'assets/images/flags/in.png';
     }
-    if (lower == 'ph' || lower.contains('philippines') || lower.contains('🇵🇭')) {
+    if (lower == 'ph' ||
+        lower.contains('philippines') ||
+        lower.contains('🇵🇭')) {
       return 'assets/images/flags/ph.png';
     }
     if (lower == 'br' || lower.contains('brazil') || lower.contains('🇧🇷')) {
@@ -33,7 +39,9 @@ class CountryFlag extends StatelessWidget {
     if (lower == 'mx' || lower.contains('mexico') || lower.contains('🇲🇽')) {
       return 'assets/images/flags/mx.png';
     }
-    if (lower == 'ar' || lower.contains('argentina') || lower.contains('🇦🇷')) {
+    if (lower == 'ar' ||
+        lower.contains('argentina') ||
+        lower.contains('🇦🇷')) {
       return 'assets/images/flags/ar.png';
     }
     if (lower == 'us' || lower.contains('usa') || lower.contains('🇺🇸')) {
@@ -45,7 +53,6 @@ class CountryFlag extends StatelessWidget {
     if (lower.startsWith('assets/flags/')) {
       return input.replaceAll('assets/flags/', 'assets/images/flags/');
     }
-    // Fallback if country code is raw e.g. "co" -> "assets/images/flags/co.png"
     return 'assets/images/flags/$lower.png';
   }
 
@@ -71,7 +78,11 @@ class CountryFlag extends StatelessWidget {
               color: Colors.grey.shade300,
               borderRadius: BorderRadius.circular(2.r),
             ),
-            child: Icon(Icons.flag_outlined, size: h * 0.8, color: Colors.grey.shade700),
+            child: Icon(
+              Icons.flag_outlined,
+              size: h * 0.8,
+              color: Colors.grey.shade700,
+            ),
           );
         },
       ),
